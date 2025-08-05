@@ -1692,6 +1692,69 @@ body.dark-mode {
   border-color: #667eea;
 }
 
+/* AI Assistant Link */
+.ai-assistant-link {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+}
+
+.ai-assistant-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 15px 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.ai-assistant-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+  color: white;
+  text-decoration: none;
+}
+
+.ai-icon {
+  font-size: 1.5rem;
+}
+
+.ai-text {
+  font-size: 0.9rem;
+}
+
+/* Dark mode for AI assistant */
+.dark-mode .ai-assistant-btn {
+  background: linear-gradient(135deg, #4c51bf 0%, #553c9a 100%);
+  box-shadow: 0 8px 25px rgba(76, 81, 191, 0.3);
+}
+
+.dark-mode .ai-assistant-btn:hover {
+  box-shadow: 0 12px 35px rgba(76, 81, 191, 0.4);
+}
+
+/* Responsive AI assistant */
+@media (max-width: 768px) {
+  .ai-assistant-btn {
+    padding: 12px 16px;
+  }
+  
+  .ai-text {
+    display: none;
+  }
+  
+  .ai-icon {
+    font-size: 1.8rem;
+  }
+}
+
 /* Responsive chatbot */
 @media (max-width: 768px) {
   .chatbot-widget {

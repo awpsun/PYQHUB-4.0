@@ -23,7 +23,7 @@
       <ul class="nav-links">
   
   <a href="dashboard.html" class="dashboard-btn">Dashboard</a>
-  <a href="upload.html" class="nav-link">Upload</a>
+  <a href="#" onclick="openUploadModal()" class="nav-link">Upload</a>
   <a href="community.html" class="nav-link">Community</a>
   <a href="login.html" class="nav-link">Login</a>
 
@@ -67,7 +67,7 @@
       <p>Upload, discover, and share Previous Year Questions and study notes with AI-powered organization. Get rewarded for contributing to your academic community.</p>
       <div class="hero-buttons">
         <a href="dashboard.html" class="btn btn-primary">Dashboard</a>
-        <a href="#subjects" class="btn btn-secondary">Browse PYQs</a>
+        <a href="dashboard.html" class="btn btn-secondary">Browse PYQs</a>
         <button onclick="openUploadModal()" class="btn btn-primary">Upload PYQ</button>
       </div>
     </div>
@@ -102,7 +102,7 @@
       <h3>AI Study Assistant</h3>
       <p>Ask doubts, get summaries, and plan your studies with AI help.</p>
       <div class="feature-options" id="ai-options" style="display: none;">
-        <button onclick="openChatbot()">Chat with AI</button>
+                 <button onclick="window.location.href='chatbot.html'">Chat with AI</button>
         <button onclick="window.location.href='support.html'">AI Help</button>
         <button onclick="window.location.href='community.html'">Study Groups</button>
       </div>
@@ -179,26 +179,13 @@
     </div>
   </div>
 
-  <!-- Chatbot Widget -->
-  <div id="chatbot-widget" class="chatbot-widget">
-    <div class="chatbot-header" onclick="toggleChatbot()">
-      <span>🤖 AI Assistant [Coming Soon]</span>
-      <button class="chatbot-toggle">×</button>
-    </div>
-    <div class="chatbot-body" id="chatbot-body" style="display: none;">
-      <div class="chatbot-messages" id="chatbot-messages">
-        <div class="chatbot-message bot">
-          <div class="message-content">
-            Hi! I'm your AI study assistant. How can I help you today?
-          </div>
-        </div>
-      </div>
-      <div class="chatbot-input">
-        <input type="text" id="chatbot-input" placeholder="Type your question..." onkeypress="handleChatbotKeypress(event)">
-        <button onclick="sendChatbotMessage()">Send</button>
-      </div>
-    </div>
-  </div>
+     <!-- AI Assistant Link -->
+   <div class="ai-assistant-link">
+     <a href="chatbot.html" class="ai-assistant-btn">
+       <span class="ai-icon">🤖</span>
+       <span class="ai-text">AI Study Assistant</span>
+     </a>
+   </div>
 
   <script src="script.js"></script>
   <script type="module" src="firebase-upload.js"></script>
@@ -255,144 +242,21 @@
     }
   }
 
-  // Chatbot function
-  function openChatbot() {
-    alert('AI Chatbot coming soon! This feature will allow you to ask questions and get instant help with your studies.');
-  }
-
-  // College dropdown handler
-  function handleCollegeChange() {
-    const collegeSelect = document.getElementById('college');
-    const collegeCustom = document.getElementById('college-custom');
-    
-    if (collegeSelect.value === 'Other') {
-      collegeCustom.style.display = 'block';
-      collegeCustom.required = true;
-      collegeSelect.required = false;
-    } else {
-      collegeCustom.style.display = 'none';
-      collegeCustom.required = false;
-      collegeSelect.required = true;
-    }
-  }
-
-  // Chatbot functions
-  function toggleChatbot() {
-    const chatbotBody = document.getElementById('chatbot-body');
-    const chatbotToggle = document.querySelector('.chatbot-toggle');
-    
-    if (chatbotBody.style.display === 'none') {
-      chatbotBody.style.display = 'block';
-      chatbotToggle.textContent = '−';
-      
-      // Add welcome message if no messages exist
-      const messagesContainer = document.getElementById('chatbot-messages');
-      if (messagesContainer.children.length === 0) {
-        setTimeout(() => {
-          addChatbotMessage('Hello! 👋 I\'m your AI study assistant. How can I help you with your studies today?', 'bot');
-        }, 500);
-      }
-    } else {
-      chatbotBody.style.display = 'none';
-      chatbotToggle.textContent = '×';
-    }
-  }
-
-  function sendChatbotMessage() {
-    const input = document.getElementById('chatbot-input');
-    const message = input.value.trim();
-    
-    if (message) {
-      addChatbotMessage(message, 'user');
-      input.value = '';
-      
-      // Simulate AI response
-      setTimeout(() => {
-        const response = generateAIResponse(message);
-        addChatbotMessage(response, 'bot');
-      }, 1000);
-    }
-  }
-
-  function handleChatbotKeypress(event) {
-    if (event.key === 'Enter') {
-      sendChatbotMessage();
-    }
-  }
-
-  function addChatbotMessage(message, sender) {
-    const messagesContainer = document.getElementById('chatbot-messages');
-    const messageDiv = document.createElement('div');
-    messageDiv.className = `chatbot-message ${sender}`;
-    
-    const contentDiv = document.createElement('div');
-    contentDiv.className = 'message-content';
-    
-    // Handle line breaks and formatting
-    const formattedMessage = message.replace(/\n/g, '<br>');
-    contentDiv.innerHTML = formattedMessage;
-    
-    messageDiv.appendChild(contentDiv);
-    messagesContainer.appendChild(messageDiv);
-    
-    // Scroll to bottom
-    messagesContainer.scrollTop = messagesContainer.scrollHeight;
-  }
-
-  function generateAIResponse(userMessage) {
-    const responses = {
-      'hello': 'Hello! 👋 How can I help you with your studies today? I can assist with uploading PYQs, finding study materials, exam preparation, and more!',
-      'hi': 'Hi there! 😊 Welcome to PYQ Hub! How can I assist you with your academic journey today?',
-      'help': 'I can help you with:\n📚 Finding study materials and PYQs\n💡 Understanding complex concepts\n📝 Exam preparation tips and strategies\n📤 Uploading your own PYQs\n🔍 Advanced search functionality\n🏆 Rewards and badges system\n👥 Community features',
-      'upload': 'To upload PYQs:\n1. Click the "Upload PYQ" button\n2. Fill in all required details\n3. Select your college from dropdown or choose "Other"\n4. Upload your file\n5. Submit and earn points! 📤✨',
-      'search': 'Use our advanced search feature to find specific PYQs:\n🔍 Search by subject, year, or college\n📊 Filter by exam type\n📅 Sort by date\n💾 Download and study offline',
-      'college': 'For college selection:\n🏫 Choose from our dropdown list\n✏️ Or select "Other" to manually enter your college name\n📝 We support all universities and colleges',
-      'rewards': 'Earn rewards by:\n⭐ Uploading quality PYQs\n🏅 Helping other students\n📈 Building your reputation\n🎖️ Unlocking badges and achievements\n💎 Collecting points for exclusive features',
-      'community': 'Join our vibrant community:\n👥 Connect with fellow students\n💬 Share study tips and resources\n🤝 Collaborate on projects\n📚 Access shared study materials\n🎯 Find study partners',
-      'exam': 'Exam preparation tips:\n📖 Review past PYQs for patterns\n⏰ Practice with time limits\n📝 Focus on frequently asked topics\n🔄 Revise regularly\n💪 Stay confident and positive!',
-      'study': 'Study effectively with:\n📚 Our comprehensive PYQ database\n🎯 Targeted practice questions\n📊 Performance analytics\n⏰ Timed practice sessions\n📝 Note-taking tools',
-      'pyq': 'PYQs (Previous Year Questions) help you:\n🎯 Understand exam patterns\n📚 Focus on important topics\n⏰ Practice time management\n📈 Track your progress\n🏆 Improve your scores',
-      'download': 'To download PYQs:\n1. Use the search function\n2. Find your desired PYQ\n3. Click the download button\n4. Save for offline study\n💾 Files are in PDF format',
-      'account': 'Manage your account:\n👤 Update your profile\n📧 Change email settings\n🔒 Reset password\n📊 View your activity\n🏆 Check your rewards',
-      'contact': 'Need direct support?\n📧 Email: support.abc@gmail.com\n📞 Phone: 9876543210\n💬 Live chat available\n📚 Visit our help center',
-      'thanks': 'You\'re welcome! 😊 Feel free to ask if you need any more help with your studies. Good luck with your exams! 🍀',
-      'thank': 'You\'re welcome! 😊 Feel free to ask if you need any more help with your studies. Good luck with your exams! 🍀'
-    };
-    
-    const lowerMessage = userMessage.toLowerCase();
-    
-    // Check for exact matches first
-    for (const [key, response] of Object.entries(responses)) {
-      if (lowerMessage === key || lowerMessage.includes(key)) {
-        return response;
-      }
-    }
-    
-    // Check for related keywords
-    const keywords = {
-      'material': 'Looking for study materials? Use our search feature to find PYQs by subject, year, or college. You can also upload your own materials to help others! 📚',
-      'question': 'Have a specific question? I can help you find relevant PYQs, study tips, or guide you through our platform features. What would you like to know? 🤔',
-      'difficult': 'Finding something difficult? Don\'t worry! Our platform has PYQs from various difficulty levels. You can also ask the community for help or use our search filters. 💪',
-      'practice': 'Great! Practice makes perfect. Use our PYQ database to practice with real exam questions. You can filter by subject, year, and difficulty level. 🎯',
-      'score': 'Want to improve your scores? Practice with our PYQs, track your progress, and learn from past exam patterns. Our analytics will help you identify weak areas. 📈',
-      'time': 'Time management is crucial! Practice with our timed PYQ sessions and learn to answer questions efficiently. Our platform tracks your speed and accuracy. ⏰',
-      'subject': 'Looking for a specific subject? Use our search feature to find PYQs by subject. We have materials for all major subjects and courses. 📖',
-      'year': 'Search PYQs by year to understand recent exam patterns and trends. This helps you focus on current topics and question styles. 📅',
-      'file': 'To upload files, use our upload feature. Supported formats include PDF, DOC, and images. Make sure your files are clear and well-organized. 📁',
-      'login': 'Having trouble logging in? Check your email and password. You can also reset your password or contact support for assistance. 🔐',
-      'signup': 'To create an account, visit our signup page and fill in your details. It\'s free and takes just a few minutes! 🆕',
-      'password': 'Forgot your password? Use the password reset feature or contact support for help. We\'ll get you back to studying quickly! 🔑'
-    };
-    
-    for (const [key, response] of Object.entries(keywords)) {
-      if (lowerMessage.includes(key)) {
-        return response;
-      }
-    }
-    
-    // Default response with suggestions
-    return 'I\'m here to help with your studies! 📚 You can ask me about:\n• Uploading PYQs 📤\n• Finding study materials 🔍\n• Exam preparation tips 📝\n• Community features 👥\n• Rewards and badges 🏆\n\nWhat would you like to know?';
-  }
+     // College dropdown handler
+   function handleCollegeChange() {
+     const collegeSelect = document.getElementById('college');
+     const collegeCustom = document.getElementById('college-custom');
+     
+     if (collegeSelect.value === 'Other') {
+       collegeCustom.style.display = 'block';
+       collegeCustom.required = true;
+       collegeSelect.required = false;
+     } else {
+       collegeCustom.style.display = 'none';
+       collegeCustom.required = false;
+       collegeSelect.required = true;
+     }
+   }
 </script>
 </body>
 </html>
